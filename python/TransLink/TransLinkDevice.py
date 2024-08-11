@@ -1,15 +1,10 @@
-from requests import request
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-#ff
 
 class TransLinkDevice:
     _accessToken = ""
     _settings : dict = {}
 
-    def __init__(self):
+    def __init__(self, settings : dict):
         pass
 
     def GetSoftwareVersions(self):
@@ -24,10 +19,6 @@ class TransLinkDevice:
 
 
 
-class POS_Transport():
-
-    def SendCommandToPOS(self, dict : dict):
-        responce = request('POST', url='')
 
 
 
