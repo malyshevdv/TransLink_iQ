@@ -4,6 +4,8 @@ class Settings:
     terminalAlias: str = ""
 
     apiVersion :str = "v107"
+    licenseToken: str = "licenseToken"
+
     cardTech : list = []
     transactionSourceMedia : list = []
 
@@ -23,7 +25,7 @@ class Settings:
 
     def LoadSettings(self, settingsDict : dict):
         self.terminalURL  = settingsDict.get('terminalURL')
-        self.terminaAlias = settingsDict.get('terminaAlias')
+        self.terminalAlias = settingsDict.get('terminalAlias')
         self.currencyCode = settingsDict.get('currencyCode')
 
         # for key, value in settingsDict:
@@ -37,8 +39,8 @@ class Settings:
 
     def SetDefaultSettings(self):
         newSettings = {
-           'terminalURL' : 'localhost:1987',
-           'terminaAlias': 'TerminalBank',
+           'terminalURL' : 'localhost:6678',
+           'terminalAlias': 'TerminalBank',
            'currencyCode' : '981'
         }
         self.LoadSettings(newSettings)

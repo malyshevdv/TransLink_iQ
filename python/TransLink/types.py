@@ -1,3 +1,5 @@
+from typing import Any
+
 class VersionType:
     compatibleApiVersions: list = ""
     releaseVersion = ""
@@ -94,3 +96,46 @@ class SupportedLanguages:
     Kazakh      = 'KZ'
     Azerbaijani = 'AZ'
     Uzbek       = 'UZ'
+
+class RequestParameters:
+    command : str = ''
+    params : dict = {}
+
+    def __init__(self, command : str):
+        self.command = command
+    def Append(self, key: str, value : Any):
+        self.params[key] = value
+
+    def GetBody(self):
+        result = {
+            'header' : {'command' : self.command},
+            'params' : self.params.copy()
+        }
+        return result
+
+
+class EventsType:
+    ONPROMPT = 'ONPROMPT'
+    ONSELECT = 'ONSELECT'
+    ONMSGBOX = 'ONMSGBOX'
+    ONDISPLAYPROMPTRESULT = 'ONDISPLAYPROMPTRESULT'
+    ONDISPLAYMSGBOXRESULT = 'ONDISPLAYMSGBOXRESULT'
+    ONDISPLAYSELECTRESULT = 'ONDISPLAYSELECTRESULT'
+    ONTRNSTATUS = 'ONTRNSTATUS'
+    ONFISCALIZERESULT = 'ONFISCALIZERESULT'
+    ONCARD = 'ONCARD'
+    ONCARDREMOVE = 'ONCARDREMOVE'
+    ONWRITECARDRESULT = 'ONWRITECARDRESULT'
+    ONDISPLAYTEXT = 'ONDISPLAYTEXT'
+    ONPRINT = 'ONPRINT'
+    ONKBD = 'ONKBD'
+    ONEPRODUCTRESULT = 'ONEPRODUCTRESULT'
+
+
+
+
+
+
+
+
+

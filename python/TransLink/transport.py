@@ -1,5 +1,7 @@
 from requests import post, get
 from .settings import Settings
+from typing import Any
+
 import json
 
 class POS_Transport():
@@ -10,7 +12,7 @@ class POS_Transport():
     def __init__(self, settings):
         self._settings = settings
 
-    def SetaccessToken(self, accessToken : str):
+    def SetAccessToken(self, accessToken : str):
         self._accessToken = accessToken
     def SendCommandToPOS(self, commandName : dict, params : dict):
 
@@ -30,16 +32,17 @@ class POS_Transport():
         if len(params)>0:
             commandStructure['params'] = params.copy()
 
-        responce = self.SendToPOS()
+        responce = self.SendToPOS(functionName, body=commandStructure)
 
         if responce.status_code != 200:
             ...
 
         return responce.json()
 
-    def SendToPOS(self, functionName : str, method : str = 'POST', body : str = ''):
+    def SendToPOS(self, functionName : str, method : str = 'POST', body : Any|None = None):
 
         result = {}
+        responce = None
 
         url = f'{self._settings.terminalURL}/{self._settings.apiVersion}/{functionName}'
 
