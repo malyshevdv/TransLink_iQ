@@ -13,10 +13,11 @@ class ResultType:
         self.resultMessage  = responceDict.get('resultMessage','')
         self.resultTime     = responceDict.get('resultTime','')
 
-    def is_OK(self):
+    def Is_OK(self):
         return self.resultCode == TypeResultCodes.OK
 
     def GetStatusDescription(self):
+        ...
 
 class TypeResultCodes:
 
@@ -79,3 +80,17 @@ class TransactionState:
     Approved    : str = 'Approved'
     Declined    : str = 'Declined'
 
+
+
+class SupportedLanguages:
+    English     = 'EN'
+    Lithuanian  = 'LT'
+    Russian     = 'RU'
+    Latvian     = 'LV'
+    Estonian    = 'EE'
+    Turkmen     = 'TM'
+    Tajik       = 'TJ'
+    Georgian    = 'GE'
+    Kazakh      = 'KZ'
+    Azerbaijani = 'AZ'
+    Uzbek       = 'UZ'
