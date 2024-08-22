@@ -179,8 +179,8 @@ class TransLinkDevice:
             requestParameters.Append("noShow",noShow)
 
         result = self.ExecuteComand(requestParameters.GetBody())
-        return result
 
+        return result
 
    def Command_INSTALLMENT(self,
                amount: int,
