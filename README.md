@@ -1,8 +1,8 @@
 22-08-2024
-I have completed the library connection with all API-functions in Python without business logic.
+I have completed the library connection with all API-functions v107 in Python without business logic.
 
 19-08-2024
-I have completed the implementation of the synchronous and asynchronous methods of connecting to the software suite ASHBURN TransLink iQ ECR. This solution includes the implementation of the library connection with all API-functions and the implementation of business logic: Authorize sales, Authorize void and Authorize partial void, close day operatio, print totals. 
+I have completed the implementation of the synchronous and asynchronous methods of connecting to the software suite ASHBURN TransLink iQ ECR. This solution includes the implementation of the library connection with all API-functions v107 and the implementation of business logic: Authorize sales, Authorize void and Authorize partial void, close day operatio, print totals. 
 
 ![image](https://github.com/user-attachments/assets/8096d122-4f67-45f6-a84e-bd293fd421f8)
 
