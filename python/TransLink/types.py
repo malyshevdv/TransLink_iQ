@@ -18,8 +18,10 @@ class ResultType:
     def Is_OK(self):
         return self.resultCode == TypeResultCodes.OK
 
+
+
     def GetStatusDescription(self):
-        ...
+        return 'my description'
 
 class TypeResultCodes:
 
@@ -114,22 +116,7 @@ class RequestParameters:
         return result
 
 
-class EventsType:
-    ONPROMPT = 'ONPROMPT'
-    ONSELECT = 'ONSELECT'
-    ONMSGBOX = 'ONMSGBOX'
-    ONDISPLAYPROMPTRESULT = 'ONDISPLAYPROMPTRESULT'
-    ONDISPLAYMSGBOXRESULT = 'ONDISPLAYMSGBOXRESULT'
-    ONDISPLAYSELECTRESULT = 'ONDISPLAYSELECTRESULT'
-    ONTRNSTATUS = 'ONTRNSTATUS'
-    ONFISCALIZERESULT = 'ONFISCALIZERESULT'
-    ONCARD = 'ONCARD'
-    ONCARDREMOVE = 'ONCARDREMOVE'
-    ONWRITECARDRESULT = 'ONWRITECARDRESULT'
-    ONDISPLAYTEXT = 'ONDISPLAYTEXT'
-    ONPRINT = 'ONPRINT'
-    ONKBD = 'ONKBD'
-    ONEPRODUCTRESULT = 'ONEPRODUCTRESULT'
+
 
 
 

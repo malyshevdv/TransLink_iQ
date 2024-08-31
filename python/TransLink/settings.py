@@ -4,7 +4,7 @@ class Settings:
     terminalAlias: str = ""
 
     apiVersion :str = "v107"
-    licenseToken: str = "licenseToken"
+    licenseToken: str = "e034d5a6cf3212826c57f35cffb103905afe5936/f86419d06688b6336ddfe68dc00c214b9b83fb10"
 
     cardTech : list = []
     transactionSourceMedia : list = []
@@ -39,7 +39,7 @@ class Settings:
 
     def SetDefaultSettings(self):
         newSettings = {
-           'terminalURL' : 'localhost:6678',
+           'terminalURL' : 'http://localhost:6678',
            'terminalAlias': 'TerminalBank',
            'currencyCode' : '981'
         }

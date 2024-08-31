@@ -1,17 +1,19 @@
 from .settings import Settings
 from .transport import POS_Transport
-from .types import RequestParameters, PaymentOperationType
-
+from .types import RequestParameters, PaymentOperationType, ResultType
+from .events import Event
 
 class TransLinkDevice:
-    _accessToken = ""
-    _settings : Settings
-    _posTransport : POS_Transport
+    #_accessToken = ""
+    #_settings : Settings
+    #_posTransport : POS_Transport
 
     def __init__(self):
-        self._settings = Settings()
-        self._settings.SetDefaultSettings()
-        self._posTransport = POS_Transport(self._settings)
+
+        settings = Settings()
+        settings.SetDefaultSettings()
+
+        self._posTransport = POS_Transport(settings)
 
     def GetSoftwareVersions(self):
         '''The method gets the information about the API software. '''
@@ -19,19 +21,28 @@ class TransLinkDevice:
         result = self._posTransport.SendToPOS("getsoftwareversions", method='GET')
         return result
 
-    def OpenPos(self):
+    def IsOpened(self):
+        return (self._accessToken != "")
+
+    def OpenPos(self) -> bool:
         '''The method is designed to trigger connection to the POS device. Together with closepos
         should be used for each EFT operation. '''
 
+        result = False
+
         bodyDict = {
-            "licenseToken": self._settings.licenseToken,
-            "alias": self._settings.terminalAlias,
+            "licenseToken": self._posTransport._settings.licenseToken,
+            "alias": self._posTransport._settings.terminalAlias,
             "username": "",
             "password": ""
         }
-        result = self._posTransport.SendToPOS("openpos", body=bodyDict)
-        return result
+        resultOpenPos = self._posTransport.SendToPOS("openpos", body=bodyDict)
+        self._posTransport._accessToken = resultOpenPos.get("json").get('accessToken',"")
 
+        if self._posTransport._accessToken != "":
+            result = True
+
+        return result
 
     def ClosePos(self):
         '''The method is designed to terminate connection to the POS device. '''
@@ -47,7 +58,7 @@ class TransLinkDevice:
         return result
 
     def UnlockDevice(self,
-                     opsOperation : str,
+                     opsOperation : PaymentOperationType,
                      amount : int,
                      idleText : str,
                      language : str,
@@ -155,19 +166,19 @@ class TransLinkDevice:
 
 
     def Command_COMPLETE(self,
-               amount: int,
-               operationId: str,
-               cryptogram: str|None = None,
-               noShow: bool|None = None
-                         ) -> dict:
+              amount: int,
+              operationId: str,
+              cryptogram: str|None = None,
+              noShow: bool|None = None
+              ) -> dict:
         '''4.5.6 COMPLETE
 
         The command triggers a request for confirmation in the POS of a previously performed preauthorization operation.
 
-        After completing preauthorization with the Complete command, re-calling the Increment or Complete commands is not
-        allowed. Gettrnstatus can be used to check the preauthorization status. If preauthorization is completed, the state attribute
-        will have the Settled value. To cancel the completed preauthorization, the Void method must be used. To cancel (terminate)
-        incomplete pre-authorization, Complete with a zero amount must be used.'''
+        After completing preauthorization with the Complete command, re-calling the Increment or Complete commands is
+        not allowed. Gettrnstatus can be used to check the preauthorization status. If preauthorization is completed,
+        the state attribute  will have the Settled value. To cancel the completed preauthorization, the Void method
+        must be used. To cancel (terminate) incomplete pre-authorization, Complete with a zero amount must be used.'''
 
         requestParameters = RequestParameters("COMPLETE")
         requestParameters.Append("amount",amount)
@@ -182,7 +193,7 @@ class TransLinkDevice:
 
         return result
 
-   def Command_INSTALLMENT(self,
+    def Command_INSTALLMENT(self,
                amount: int,
                installmentPaymentCount: int,
                documentNr: str,
@@ -213,7 +224,7 @@ operation, UNLOCKDEVICE with Operation code 0 (NOOPERATION) with sum 0 must be s
         return result #TypeResult
 
 
-   def Command_CREDIT(self,
+    def Command_CREDIT(self,
                amount: int,
                currencyCode: str,
                documentNr: str,
@@ -639,7 +650,7 @@ The command triggers in the POS a procedure for refunding to card accounts. '''
 
 
     def GetEvent(self,
-                 ) -> dict:
+                 ) -> Event:
         '''4.6.1 getEvent
     The method checks the queue of available events triggered by the API. If pending events are available in the queue, the method will
     return the name of the event and the attributes required for processing the event as a result.
@@ -647,6 +658,7 @@ The command triggers in the POS a procedure for refunding to card accounts. '''
     getEvent?longPollingTimeout=15 would tell the server to wait for 15 seconds (max 60s). '''
 
         result = self._posTransport.SendToPOS("getsoftwareversions", method='GET')
-        return result #EventType
+
+        return Event(result)
 
 
