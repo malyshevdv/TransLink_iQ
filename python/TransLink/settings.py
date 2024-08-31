@@ -39,7 +39,7 @@ class Settings:
 
     def SetDefaultSettings(self):
         newSettings = {
-           'terminalURL' : 'http://localhost:6678',
+           'terminalURL' : 'http://localhost:6679',
            'terminalAlias': 'TerminalBank',
            'currencyCode' : '981'
         }

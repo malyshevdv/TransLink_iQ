@@ -1,11 +1,15 @@
 from TransLink import TransLinkDevice
 
-def Test_AuthorizeSales():
-    Amount = int(input('Enter amount of Authorize sales'))
+
+def testauthorizesales():
+    amount = int(input('Enter amount of Authorize sales'))
+    print(amount)
 
 
 def ShowDriverVersion():
     ...
+
+
 def OperationMenu():
     while True:
         print('==============')
@@ -23,13 +27,13 @@ def OperationMenu():
 
         match nextStep:
             case 1:
-                Test_AuthorizeSales()
+                testauthorizesales()
 
             case 0:
-                    break
+                break
+
 
 def DeviceMenu():
-
     device = TransLinkDevice()
 
     while True:
@@ -40,6 +44,7 @@ def DeviceMenu():
         print('2. Show driver version')
         print('3. Get POS status')
         print('4. Show settings')
+        print('5. AUTHORIZE')
 
         print('9. Close POS')
         print('0. Exit')
@@ -47,27 +52,31 @@ def DeviceMenu():
         nextStep = int(input('Enter next step:'))
 
         match nextStep:
-            case 1 :
-                    result = device.OpenPos()
-                    print(result)
+            case 1:
+                result = device.openpos()
+                print(result)
             case 2:
-                    result = device.GetSoftwareVersions()
-                    print(result)
+                result = device.getsoftwareversions()
+                print(result)
             case 3:
-                    result = device.Command_GETPOSSTATUS()
-                    print(result)
+                result = device.command_GETPOSSTATUS()
+                print(result)
             case 4:
-                result = device._posTransport.GetSettings()
+                transport = device.gettransport()
+                result = transport.GetSettings()
+                print(result)
+            case 5:
+                result = device.command_AUTHORIZE(amount=1, currencyCode="981", documentNr='4445547844')
                 print(result)
 
             case 9:
-                    result = device.ClosePos()
-                    print(result)
+                result = device.closepos()
+                print(result)
             case 0:
-                    break
+                break
+
 
 def MainMenu():
-
     device = TransLinkDevice()
 
     while True:
@@ -81,16 +90,14 @@ def MainMenu():
         nextStep = int(input('Enter next step:'))
 
         match nextStep:
-            case 1 :
-                    DeviceMenu()
+            case 1:
+                DeviceMenu()
             case 2:
-                    OperationMenu()
+                OperationMenu()
             case 0:
                 print('Good luck!')
                 break
 
 
 if __name__ == '__main__':
-
     MainMenu()
-
