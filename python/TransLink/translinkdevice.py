@@ -100,6 +100,22 @@ class TransLinkDevice:
         result = self.executecomand(requestParameters.GetBody())
         return result
 
+
+    def getevent(self,
+                 ) -> Event:
+        """4.6.1 getEvent
+    The method checks the queue of available events triggered by the API. If pending events are available
+    in the queue, the method will return the name of the event and the attributes required for processing the event
+    as a result.
+    It is possible to instruct the server to wait for event if the queue is empty with a technique called HTTP
+     Long Polling.  getEvent?longPollingTimeout=15 would tell the server to wait for 15 seconds (max 60s). """
+
+        result = self._posTransport.SendToPOS("getsoftwareversions", method='GET')
+
+        return Event(result)
+
+
+
     def command_AUTHORIZE(self,
                           amount: int,
                           currencyCode: str,
@@ -635,15 +651,3 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def GetEvent(self,
-                 ) -> Event:
-        """4.6.1 getEvent
-    The method checks the queue of available events triggered by the API. If pending events are available
-    in the queue, the method will return the name of the event and the attributes required for processing the event
-    as a result.
-    It is possible to instruct the server to wait for event if the queue is empty with a technique called HTTP
-     Long Polling.  getEvent?longPollingTimeout=15 would tell the server to wait for 15 seconds (max 60s). """
-
-        result = self._posTransport.SendToPOS("getsoftwareversions", method='GET')
-
-        return Event(result)

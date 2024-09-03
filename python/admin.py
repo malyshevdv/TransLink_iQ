@@ -44,10 +44,16 @@ def DeviceMenu():
         print('2. Show driver version')
         print('3. Get POS status')
         print('4. Show settings')
-        print('5. AUTHORIZE')
+        print('5. GET EVENT')
 
-        print('9. Close POS')
+        print('6. UNLOCK 5')
+        print('7. AUTHORIZE')
+        print('8. CLOSEDOC')
+
+        print('9. LOCK')
+        print('10. Close POS')
         print('0. Exit')
+        print('==============')
 
         nextStep = int(input('Enter next step:'))
 
@@ -66,10 +72,21 @@ def DeviceMenu():
                 result = transport.GetSettings()
                 print(result)
             case 5:
-                result = device.command_AUTHORIZE(amount=1, currencyCode="981", documentNr='4445547844')
+                result = device.getevent()
                 print(result)
 
+            case 6:
+                result = device.unlockdevice()
+                print(result)
+
+            case 7:
+                result = device.command_AUTHORIZE(amount=1, currencyCode="981", documentNr='4445547844')
+                print(result)
             case 9:
+                result = device.lockdevice()
+                print(result)
+
+            case 10:
                 result = device.closepos()
                 print(result)
             case 0:
