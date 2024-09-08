@@ -23,6 +23,7 @@ class TransLinkDevice:
         result = self._posTransport.SendToPOS("getsoftwareversions", method='GET')
         return result
 
+
     def isopened(self):
         return self._accessToken != ""
 
@@ -110,9 +111,9 @@ class TransLinkDevice:
     It is possible to instruct the server to wait for event if the queue is empty with a technique called HTTP
      Long Polling.  getEvent?longPollingTimeout=15 would tell the server to wait for 15 seconds (max 60s). """
 
-        result = self._posTransport.SendToPOS("getsoftwareversions", method='GET')
-
-        return Event(result)
+        result = self._posTransport.SendToPOS("getevent", method='GET')
+        event = Event(result)
+        return event
 
 
 
@@ -392,7 +393,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_DISPLAYSELECT(self,
+    def command_DISPLAYSELECT(self,
                               displayText: str,
                               options: list
                               ) -> dict:
@@ -407,7 +408,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_SETPROMPTINPUT(self,
+    def command_SETPROMPTINPUT(self,
                                inputValue: str
                                ) -> dict:
         """4.5.18 SETPROMPTINPUT
@@ -419,7 +420,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_SETMSGBOXKEY(self,
+    def command_SETMSGBOXKEY(self,
                              keyValue: str
                              ) -> dict:
         """4.5.19 SETMSGBOXKEY
@@ -431,7 +432,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_SETSELECTEDVALUE(self,
+    def command_SETSELECTEDVALUE(self,
                                  selectedValue: str
                                  ) -> dict:
         """4.5.20 SETSELECTEDVALUE
@@ -443,7 +444,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_CLOSEDAY(self,
+    def command_CLOSEDAY(self,
                          operatorId: str | None = None,
                          operatorName: str | None = None
                          ) -> dict:
@@ -459,7 +460,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_PRINTTOTALS(self,
+    def command_PRINTTOTALS(self,
                             operatorId: str | None = None,
                             operatorName: str | None = None
                             ) -> dict:
@@ -477,7 +478,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_GETTRNSTATUS(self,
+    def command_GETTRNSTATUS(self,
                              documentNr: str | None = None,
                              operationId: str | None = None,
                              cryptogram: str | None = None
@@ -499,7 +500,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_INQUIRYBALANCE(self
+    def command_INQUIRYBALANCE(self
                                ) -> dict:
         """4.5.24 INQUIRYBALANCE
     The command makes a request about the balance of the payment card. The balance
@@ -510,7 +511,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_EPRODUCTQUERY(self,
+    def command_EPRODUCTQUERY(self,
                               barcodeData: str,
                               documentNr: str | None = None
                               ) -> dict:
@@ -529,7 +530,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_WRITECARD(self,
+    def command_WRITECARD(self,
                           dataBlocks: list,
                           UID: str | None = None,
                           silent: str | None = None
@@ -547,7 +548,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_REMOVECARD(self,
+    def command_REMOVECARD(self,
                            text: str
                            ) -> dict:
         """4.5.27 REMOVECARD
@@ -560,8 +561,12 @@ The command triggers in the POS a procedure for refunding to card accounts. """
 
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
+    
+    def command_GETPOSSTATUS(self):
+        result = self._posTransport.SendCommandToPOS(commandName="GETPOSSTATUS")
+        return result
 
-    def Command_BEEP(self,
+    def command_BEEP(self,
                      notes: list
                      ) -> dict:
         """4.5.28 BEEP
@@ -573,7 +578,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_GETPOSSTATUS(self
+    def command_GETPOSSTATUS(self
                              ) -> dict:
         """4.5.29 GETPOSSTATUS
     The command requests the status of the POS. """
@@ -583,7 +588,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_CLOSEDOC(self,
+    def command_CLOSEDOC(self,
                          documentNr: str,
                          operations: list | None = None,
                          eProducts: list | None = None,
@@ -609,7 +614,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_CLOSEEPRODUCT(self,
+    def command_CLOSEEPRODUCT(self,
                               operations: list | None = None,
                               ) -> dict:
         """4.5.31 CLOSEEPRODUCT* - not in use in the current version
@@ -623,7 +628,7 @@ The command triggers in the POS a procedure for refunding to card accounts. """
         result = self.executecomand(requestParameters.GetBody())
         return result  # TypeResult
 
-    def Command_CREDIT(self,
+    def command_CREDIT(self,
                        amount: int,
                        currencyCode: str,
                        documentNr: str,

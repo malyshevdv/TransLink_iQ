@@ -16,14 +16,14 @@ class ResultType:
         self.resultTime     = responceDict.get('resultTime','')
 
     def Is_OK(self):
-        return self.resultCode == TypeResultCodes.OK
+        return self.resultCode == ResultTypeCodes.OK
 
 
 
     def GetStatusDescription(self):
         return 'my description'
 
-class TypeResultCodes:
+class ResultTypeCodes:
 
     OK              : str = 'OK'
     INVALID_ARG     : str = 'INVALID_ARG'
@@ -98,6 +98,20 @@ class SupportedLanguages:
     Kazakh      = 'KZ'
     Azerbaijani = 'AZ'
     Uzbek       = 'UZ'
+
+class Currencies:
+    GEL = "981"
+    USD = "840"
+    EUR = "978"
+    TMT = "934"
+    TJS = "972"
+    KZT = "398"
+    AZN = "944"
+    UZS = "860"
+
+    BNS = "111" #BONUS1
+    PLS = "211" #BONUS2
+
 
 class RequestParameters:
     command : str = ''
