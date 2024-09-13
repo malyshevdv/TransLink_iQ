@@ -20,7 +20,9 @@ class EventsType:
     ONEPRODUCTRESULT = 'ONEPRODUCTRESULT'
 
 def getCurrenDate():
-    return datetime.now().strftime("%Y%m%d%H%M%S")
+    res = str(datetime.now().strftime("%Y%m%d%H%M%S"))
+    print(res)
+    return res
 
 class Event:
     def __init__(self, eventDict : dict):
@@ -161,6 +163,7 @@ class Events:
         }
         cls.evetList.append(result)
 
+    @classmethod
     def createevent_AUTORISE_ONPRINT(cls, body):
         result = {
             "eventName": "ONPRINT",
@@ -176,7 +179,7 @@ class Events:
         cls.evetList.append(result)
 
     @classmethod
-    def createevent_ONTRNSTATUS(cls):
+    def createevent_ONTRNSTATUS(cls, body):
         result = {
             "eventName": "ONTRNSTATUS",
             "properties": {

@@ -1,4 +1,11 @@
 from typing import Any
+from datetime import datetime
+
+def getCurrenDate():
+    res = str(datetime.now().strftime("%Y%m%d%H%M%S"))
+    print(res)
+    return res
+
 
 class VersionType:
     compatibleApiVersions: list = ""
@@ -11,14 +18,29 @@ class ResultType:
     resultTime: str = ""
 
     def __init__(self, responceDict : dict):
-        self.resultCode     = responceDict.get('resultCode','')
-        self.resultMessage  = responceDict.get('resultMessage','')
-        self.resultTime     = responceDict.get('resultTime','')
+        self.resultCode:str     = responceDict.get('resultCode','')
+        self.resultMessage: str  = responceDict.get('resultMessage','')
+        #self.resultTime:str     = responceDict.get('resultTime','')
+        #if self.resultTime == "":
+        self.resultTime = getCurrenDate()
+
 
     def Is_OK(self):
         return self.resultCode == ResultTypeCodes.OK
 
+    def getDict(self):
+        return {
+            "resultCode": self.resultCode,
+            "resultMessage": self.resultMessage,
+            "resultTime": self.resultTime
+        }
 
+    def __repr__(self):
+        return self.getDict()
+
+
+    def __str__(self):
+        return str(self.getDict())
 
     def GetStatusDescription(self):
         return 'my description'
