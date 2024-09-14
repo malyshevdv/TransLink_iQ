@@ -2,14 +2,18 @@
 Have made DockerFile to run POS-emulator within docker container
 
 docker build -t emulator .
+
 docker run -d --name ashburn_pos_emulator -p 6678:6678 emulator
 
 http://localhost:6678/
+
 http://localhost:6678/docs
 
 2024-09-03
 I have completed POS-emulator. It provides you to develop your own solution without fizical ASHBURN TransLink API POS.
-To start the emulator - run this command: fastapi dev --port 6678 deviceEmulator.py
+To start the emulator - run this command: 
+
+fastapi dev --port 6678 deviceEmulator.py
 
 
 2024-08-22
