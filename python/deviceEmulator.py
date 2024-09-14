@@ -1,12 +1,33 @@
-from typing import Annotated
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request
 from fastapi.security import OAuth2PasswordBearer
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
+from typing import Annotated
 from pydantic import BaseModel
 from TransLink import Event, Events
 from pprint import pprint
 
 #1from .deviceEmulator import createevent_CLOSEDAY_ONPRINT
 
+app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
+
+url = "/v107"
+licenseToken = "e034d5a6cf3212826c57f35cffb103905afe5936/f86419d06688b6336ddfe68dc00c214b9b83fb10"
+
+accessToken = "7C65891202494794599402621701736360258001"
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=accessToken)
+
+@app.get("/", response_class=HTMLResponse)
+async def read_root(request: Request):
+    #return {"Hello": "TransLink POS emulator - see docs http://127.0.0.1:6678/docs#/"}
+    id = "111222333"
+    return templates.TemplateResponse(
+        request=request, name="start.html", context={"id": id}
+    )
 
 class OpenPosBody(BaseModel):
     licenseToken: str = "",
@@ -31,17 +52,7 @@ class CommandBody(BaseModel):
     params: CommandParams
 
 
-app = FastAPI()
-url = "/v107"
-licenseToken = "e034d5a6cf3212826c57f35cffb103905afe5936/f86419d06688b6336ddfe68dc00c214b9b83fb10"
 
-accessToken = "7C65891202494794599402621701736360258001"
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=accessToken)
-
-
-@app.get("/")
-def read_root():
-    return {"Hello": "TransLink POS emulator - see docs http://127.0.0.1:6678/docs#/"}
 
 
 @app.post(url + "/openpos")
