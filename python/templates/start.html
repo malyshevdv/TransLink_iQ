@@ -2,11 +2,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>TransLink POS emulator</title>
+
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+
 </head>
 <body>
-<p>ASHBURN TransLink POS emulator - see  <a href="http://127.0.0.1:6678/docs#/">docs</a></p>
-<p>Text:<a>{{text}}</a></p>
+
+
+
+ <script>
+            var ws = new WebSocket("ws://localhost:6678/ws");
+
+            ws.onmessage = function(event) {
+                var messages = document.getElementById('messages')
+                var message = document.createElement('li')
+                var mydata = JSON.parse(event.data)
+                console.log(mydata)
+                var content = document.createTextNode(mydata.lasttext)
+                message.appendChild(content)
+                messages.appendChild(message)
+            };
+            ws.onclose = function(event) {
+                console.log("closed")
+
+            };
+            ws.onerror = function(event) {
+                console.log("error happened")
+
+            };
+
+            function sendMessage(event) {
+                var input = document.getElementById("messageText")
+                ws.send(input.value)
+                console.log(ws)
+                input.value = ''
+                event.preventDefault()
+            }
+        </script>
+
+
+
+
+    <div class="terminal">
+        <div class="display1" id="display1">
+            <p> <a href="http://127.0.0.1:6678/docs#/">ASHBURN TransLink POS emulator</a></p>
+            <p><input id="AUTOONCARD"  type="checkbox" checked="true"> AUTO ONCARD</input></p>
+        </div>
+        <div class="display" id="displaymain" height="3rem"></div>
+
+        <div class="display" id="display">0</div>
+
+        <div class="keyboard2">
+                <button onclick="pressSpecialKey('F1')">--</button>
+                <button onclick="pressSpecialKey('UP')">UP</button>
+                <button onclick="pressSpecialKey('DOWN')">DOWN</button>
+                <button onclick="pressSpecialKey('F2')">--</button>
+        </div>
+
+        <div class="keyboard">
+            <button onclick="pressKey('1')">1</button>
+            <button onclick="pressKey('2')">2</button>
+            <button onclick="pressKey('3')">3</button>
+            <button onclick="pressKey('4')">4</button>
+            <button onclick="pressKey('5')">5</button>
+            <button onclick="pressKey('6')">6</button>
+            <button onclick="pressKey('7')">7</button>
+            <button onclick="pressKey('8')">8</button>
+            <button onclick="pressKey('9')">9</button>
+            <button onclick="pressKey('0')">0</button>
+            <button onclick="clearDisplay()">C</button>
+        </div>
+        <div class="buttons">
+            <button class="red" onclick="pressSpecialKey('red')">CANCEL</button>
+            <button class="yellow" onclick="pressSpecialKey('yellow')">-PAUSE-</button>
+            <button class="green" onclick="pressSpecialKey('green')">--OK--</button>
+        </div>
+    </div>
+
+ <p>Text:<a>{{text}}</a></p>
 <p>Queue:</p>
+
+    <script>
+        function pressKey(key) {
+            const display = document.getElementById('display');
+            if (display.innerText === '0') {
+                display.innerText = key;
+            }
+            else
+            {
+                display.innerText += key;
+            }
+        }
+
+        function pressSpecialKey(key) {
+           if (key === 'red') {clearDisplay()}
+            if (key === 'yellow') {}
+            if (key === 'green') {}
+        }
+
+
+        function clearDisplay() {
+            document.getElementById('display').innerText = '0';
+        }
+    </script>
+
+
+
 </body>
 </html>
