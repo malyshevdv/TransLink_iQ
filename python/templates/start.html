@@ -21,6 +21,10 @@
         var mydata = JSON.parse(event.data)
         console.log(mydata)
 
+
+        var input = document.getElementById("displaymain")
+        if (input.textContent != mydata.text) {input.textContent  = mydata.text}
+
         <!--
         var messages = document.getElementById('messages')
         var message = document.createElement('li')
@@ -53,7 +57,7 @@
             <p> <a href="http://127.0.0.1:6678/docs#/">ASHBURN TransLink POS emulator</a></p>
 
         </div>
-        <div class="display" id="displaymain" height="3rem"></div>
+        <div class="displaymain" id="displaymain" height="3rem"></div>
 
         <div class="display" id="display">0</div>
 
@@ -89,16 +93,18 @@
         <p><input id="AUTOONCARD"  type="checkbox" checked="true"> AUTO ONCARD</input></p>
 
         <p>Queue:</p>
-        <a>{{QueueList}}</a>
+        <div class="displaymain" id="QueueList" height="3rem"></div>
 
         <p>Last Receipt:<a>{{text}}</a></p>
-        <a>{{ReceiptText}}</a>
+        <div class="displaymain" id="ReceiptText" height="3rem"></div>
+
 
     </div>
     <div class="terminal">
          <p>Data</p>
 
          <p>Documents</p>
+         <div class="displaymain" id="DocumentList" height="3rem"></div>
 
     </div>
 
