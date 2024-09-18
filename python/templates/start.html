@@ -8,56 +8,60 @@
 
 </head>
 <body>
-
-
-
  <script>
-            var ws = new WebSocket("ws://localhost:6678/ws");
+    var ws = new WebSocket("ws://localhost:6678/ws");
 
-            ws.onmessage = function(event) {
-                var messages = document.getElementById('messages')
-                var message = document.createElement('li')
-                var mydata = JSON.parse(event.data)
-                console.log(mydata)
-                var content = document.createTextNode(mydata.lasttext)
-                message.appendChild(content)
-                messages.appendChild(message)
-            };
-            ws.onclose = function(event) {
-                console.log("closed")
-
-            };
-            ws.onerror = function(event) {
-                console.log("error happened")
-
-            };
-
-            function sendMessage(event) {
-                var input = document.getElementById("messageText")
-                ws.send(input.value)
-                console.log(ws)
-                input.value = ''
-                event.preventDefault()
-            }
-        </script>
+    setInterval(function() {
+        console.log(`Раз в секунду печатаю имя `)
+        ws.send(0)
+        }, 1000)
 
 
+    ws.onmessage = function(event) {
+        var mydata = JSON.parse(event.data)
+        console.log(mydata)
 
+        <!--
+        var messages = document.getElementById('messages')
+        var message = document.createElement('li')
 
+        var content = document.createTextNode(mydata.lasttext)
+        message.appendChild(content)
+        -->messages.appendChild(message)
+    };
+    ws.onclose = function(event) {
+        console.log("closed")
+
+    };
+    ws.onerror = function(event) {
+        console.log("error happened")
+
+    };
+
+    function sendMessage(event) {
+        var input = document.getElementById("messageText")
+        ws.send(input.value)
+        console.log(ws)
+        input.value = ''
+        event.preventDefault()
+    }
+</script>
+
+ <div class="main">
     <div class="terminal">
         <div class="display1" id="display1">
             <p> <a href="http://127.0.0.1:6678/docs#/">ASHBURN TransLink POS emulator</a></p>
-            <p><input id="AUTOONCARD"  type="checkbox" checked="true"> AUTO ONCARD</input></p>
+
         </div>
         <div class="display" id="displaymain" height="3rem"></div>
 
         <div class="display" id="display">0</div>
 
         <div class="keyboard2">
-                <button onclick="pressSpecialKey('F1')">--</button>
-                <button onclick="pressSpecialKey('UP')">UP</button>
-                <button onclick="pressSpecialKey('DOWN')">DOWN</button>
-                <button onclick="pressSpecialKey('F2')">--</button>
+                <button onclick="pressSpecialKey('F1')">F1</button>
+                <button onclick="pressSpecialKey('F2')">DOWN</button>
+                <button onclick="pressSpecialKey('F3')">UP</button>
+                <button onclick="pressSpecialKey('F4')">F4</button>
         </div>
 
         <div class="keyboard">
@@ -70,6 +74,7 @@
             <button onclick="pressKey('7')">7</button>
             <button onclick="pressKey('8')">8</button>
             <button onclick="pressKey('9')">9</button>
+            <button onclick="pressSpecialKey('F')">F</button>
             <button onclick="pressKey('0')">0</button>
             <button onclick="clearDisplay()">C</button>
         </div>
@@ -79,9 +84,29 @@
             <button class="green" onclick="pressSpecialKey('green')">--OK--</button>
         </div>
     </div>
+    <div class="terminal">
+        <p>Settings</p>
+        <p><input id="AUTOONCARD"  type="checkbox" checked="true"> AUTO ONCARD</input></p>
 
- <p>Text:<a>{{text}}</a></p>
-<p>Queue:</p>
+        <p>Queue:</p>
+        <a>{{QueueList}}</a>
+
+        <p>Last Receipt:<a>{{text}}</a></p>
+        <a>{{ReceiptText}}</a>
+
+    </div>
+    <div class="terminal">
+         <p>Data</p>
+
+         <p>Documents</p>
+
+    </div>
+
+ </div>
+
+
+
+
 
     <script>
         function pressKey(key) {
